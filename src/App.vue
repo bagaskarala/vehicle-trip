@@ -9,7 +9,6 @@
 
 <script>
 import VehicleTrip from './components/VehicleTrip.vue';
-
 export default {
   name: 'app',
   components: {

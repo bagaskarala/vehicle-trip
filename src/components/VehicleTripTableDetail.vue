@@ -4,10 +4,10 @@
     title="Trip History"
     body-class="p-0"
     scrollable
+    size="lg"
     centered
     ok-only
     lazy
-    size="lg"
   >
     <b-table
       striped

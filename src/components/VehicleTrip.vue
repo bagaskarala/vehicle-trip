@@ -14,12 +14,14 @@
           <h2 class="text-success  text-right">{{totalTrips}}</h2>
         </div>
       </div>
+
       <VehicleTripStats
         :trip-data="VechicleTripData.trips"
         :summary="VechicleTripData.summary"
         @count-total-distance="totalDistance = $event"
         @count-total-trips="totalTrips = $event"
       />
+
       <VehicleTripTable :trip-data="VechicleTripData.trips" />
     </div>
   </div>

@@ -14,14 +14,18 @@ export default {
       }
     }
   },
+
   computed: {
+    // convert distance to km
     totalDistance() {
       return this.summary.distance / 1000 + ' km';
     },
+    // count trips
     totalTrips() {
       return this.tripData.length;
     }
   },
+
   watch: {
     totalDistance: {
       handler: function () {
@@ -38,6 +42,3 @@ export default {
   }
 };
 </script>
-
-<style>
-</style>

@@ -96,6 +96,7 @@ export default {
       this.tripHistory = histories;
     },
 
+    // prepare data for export
     formatToExport(histories) {
       return histories.map(item => {
         const { id, tracked_at, latitude, longitude, speed, distance } = item;
@@ -110,6 +111,7 @@ export default {
       });
     },
 
+    // parse and format raw trip data
     async processTripData() {
       const promises = this.tripData.map(async item => {
         const startLocation = await this.getReverseGeocoding(item.start.latitude, item.start.longitude);
@@ -128,6 +130,7 @@ export default {
       this.tripDataProcessed = await Promise.all(promises);
     },
 
+    // access API reverse geocoding
     async getReverseGeocoding(lat, long) {
       this.isBusy = true;
       try {
@@ -135,16 +138,17 @@ export default {
         this.isBusy = false;
         return response;
       } catch (error) {
-        console.log(error);
         this.isBusy = false;
         return null;
       }
     },
 
+    // get nominatim public URL
     getPublicNominatim(placeId) {
       return OSMService.getPublicNominatim(placeId);
     },
 
+    // naming csv file
     generateFileName(item) {
       return `Trip#${item.id}.csv`;
     }
