@@ -18,13 +18,14 @@
       </template>
       <template v-slot:cell(history)="data">
         <button
-          class="btn btn-sm btn-dark mx-1 my-1"
-          @click="exportHistory(data.item.histories)"
-        >Export CSV</button>
-        <button
           class="btn btn-sm btn-primary mx-1 my-1"
           @click="loadTripHistory(data.item.histories)"
         >Show Detail</button>
+        <button class="btn btn-sm btn-dark mx-1 my-1">
+          <download-csv :data="formatToExport(data.item.histories)">
+            Export CSV
+          </download-csv>
+        </button>
       </template>
     </b-table>
 
@@ -34,6 +35,7 @@
 </template>
 
 <script>
+import { knotToKmh } from '../shared/utils';
 import VehicleTripTableDetail from './VehicleTripTableDetail';
 export default {
   name: 'VehicleTripTable',
@@ -69,7 +71,20 @@ export default {
       this.tripHistory = histories;
     },
     exportHistory(histories) {
-
+      console.log(histories);
+    },
+    formatToExport(histories) {
+      return histories.map(item => {
+        const { id, tracked_at, latitude, longitude, speed, distance } = item;
+        return {
+          id,
+          datetime: tracked_at,
+          latitude,
+          longitude,
+          speed: knotToKmh(speed),
+          distance
+        };
+      });
     }
   }
 };

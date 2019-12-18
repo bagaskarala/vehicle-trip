@@ -1,9 +1,9 @@
-import Vue from 'vue'
-import App from './App.vue'
+import Vue from 'vue';
+import App from './App.vue';
 
 // bootstrap css
-import 'bootstrap/dist/css/bootstrap.css'
-import 'bootstrap-vue/dist/bootstrap-vue.css'
+import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap-vue/dist/bootstrap-vue.css';
 
 // modal bootstrap-vue
 import { ModalPlugin } from 'bootstrap-vue';
@@ -13,8 +13,12 @@ Vue.use(ModalPlugin);
 import { TablePlugin } from 'bootstrap-vue';
 Vue.use(TablePlugin);
 
-Vue.config.productionTip = false
+// json to csv
+import JsonCSV from 'vue-json-csv';
+Vue.component('downloadCsv', JsonCSV);
+
+Vue.config.productionTip = false;
 
 new Vue({
-  render: h => h(App),
-}).$mount('#app')
+  render: h => h(App)
+}).$mount('#app');

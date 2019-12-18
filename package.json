@@ -12,7 +12,8 @@
     "bootstrap-vue": "^2.1.0",
     "core-js": "^3.4.3",
     "date-fns": "^2.8.1",
-    "vue": "^2.6.10"
+    "vue": "^2.6.10",
+    "vue-json-csv": "^1.2.9"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^4.1.0",

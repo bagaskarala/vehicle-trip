@@ -1,7 +1,7 @@
 <template>
   <b-modal
     id="modal-trip-history"
-    title="BootstrapVue"
+    title="Trip History"
     no-body
   >
     <b-table
@@ -13,11 +13,15 @@
         <p class="text-info">Long: {{ data.item.longitude }}</p>
         <p class="text-info">Lat: {{ data.item.latitude }}</p>
       </template>
+      <template v-slot:cell(speed)="data">
+        <span>{{knotToKmh(data.item.speed)}}</span>
+      </template>
     </b-table>
   </b-modal>
 </template>
 
 <script>
+import { knotToKmh } from '../shared/utils';
 export default {
   name: 'VehicleTripTableDetail',
   props: {
@@ -34,10 +38,14 @@ export default {
           key: 'location'
         },
         {
-          key: 'speed'
+          key: 'speed',
+          label: 'Speed (km/h)'
         }
       ]
     };
+  },
+  methods: {
+    knotToKmh
   }
 };
 </script>
