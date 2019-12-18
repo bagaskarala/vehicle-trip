@@ -16,14 +16,17 @@
       :fields="fields"
     >
       <template v-slot:cell(datetime)="data">
-        <span>{{formatTimezone(data.item.tracked_at, 'yyyy-mm-dd hh:mm:ss')}}</span>
+        <span>{{formatTimezone(data.item.tracked_at, 'yyyy-MM-dd hh:mm:ss')}}</span>
       </template>
       <template v-slot:cell(coordinate)="data">
         <p class="text-info mb-0">Lat: {{ data.item.latitude }}</p>
         <p class="text-info mb-0">Long: {{ data.item.longitude }}</p>
       </template>
       <template v-slot:cell(speed)="data">
-        <span>{{knotToKmh(data.item.speed).toFixed(0)}}</span>
+        <span>{{knotToKmh(data.item.speed).toFixed(0)}} km/h</span>
+      </template>
+      <template v-slot:cell(distance)="data">
+        <span>{{data.item.distance}} m</span>
       </template>
     </b-table>
   </b-modal>
@@ -40,18 +43,16 @@ export default {
     return {
       fields: [
         {
-          key: 'datetime',
+          key: 'datetime'
         },
         {
           key: 'coordinate'
         },
         {
-          key: 'speed',
-          label: 'Speed (km/h)'
+          key: 'speed'
         },
         {
-          key: 'distance',
-          label: 'Distance (m)'
+          key: 'distance'
         }
       ]
     };

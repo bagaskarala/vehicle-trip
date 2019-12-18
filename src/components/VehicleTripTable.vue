@@ -10,11 +10,26 @@
     <b-table
       v-else
       striped
-      hover
+      class="mb-0"
+      responsive
       :items="tripDataProcessed"
+      :fields="fields"
     >
       <template v-slot:cell(location)="data">
-        <a :href="getPublicNominatim(data.item.location.place_id)">{{data.item.location.display_name}}</a>
+        <div style="min-width:300px">
+
+          <span class="font-weight-bold">From: </span>
+          <a
+            :href="getPublicNominatim(data.item.location.start.place_id)"
+            target="_blank"
+          >{{data.item.location.start.display_name}}</a>
+          <hr>
+          <span class="font-weight-bold">To: </span>
+          <a
+            :href="getPublicNominatim(data.item.location.end.place_id)"
+            target="_blank"
+          >{{data.item.location.end.display_name}}</a>
+        </div>
       </template>
       <template v-slot:cell(histories)="data">
         <button
@@ -22,7 +37,10 @@
           @click="loadTripHistory(data.item.histories)"
         >Show Detail</button>
         <button class="btn btn-sm btn-dark mx-1 my-1">
-          <download-csv :data="formatToExport(data.item.histories)">
+          <download-csv
+            :data="formatToExport(data.item.histories)"
+            :name="generateFileName(data.item)"
+          >
             Export CSV
           </download-csv>
         </button>
@@ -49,7 +67,26 @@ export default {
     return {
       isBusy: false,
       tripHistory: [],
-      tripDataProcessed: []
+      tripDataProcessed: [],
+      fields: [
+        {
+          key: 'startDateTime',
+          label: 'Start Datetime'
+        },
+        {
+          key: 'endDateTime',
+          label: 'End Datetime'
+        },
+        {
+          key: 'location',
+          label: 'Location'
+        },
+        {
+          key: 'histories',
+          label: 'History'
+        }
+
+      ]
     };
   },
 
@@ -64,7 +101,7 @@ export default {
         const { id, tracked_at, latitude, longitude, speed, distance } = item;
         return {
           id,
-          datetime: formatTimezone(tracked_at, 'yyyy-mm-dd hh:mm:ss'),
+          datetime: formatTimezone(tracked_at, 'yyyy-MM-dd hh:mm:ss'),
           latitude,
           longitude,
           speed: knotToKmh(speed).toFixed(0),
@@ -75,11 +112,16 @@ export default {
 
     async processTripData() {
       const promises = this.tripData.map(async item => {
-        const location = await this.getReverseGeocoding(item.end.latitude, item.end.longitude);
+        const startLocation = await this.getReverseGeocoding(item.start.latitude, item.start.longitude);
+        const endLocation = await this.getReverseGeocoding(item.end.latitude, item.end.longitude);
         return {
-          startTime: formatTimezone(item.start.tracked_at),
-          endTime: formatTimezone(item.end.tracked_at),
-          location: location.data,
+          id: item.id,
+          startDateTime: formatTimezone(item.start.tracked_at),
+          endDateTime: formatTimezone(item.end.tracked_at),
+          location: {
+            start: startLocation.data,
+            end: endLocation.data
+          },
           histories: item.histories
         };
       });
@@ -101,6 +143,10 @@ export default {
 
     getPublicNominatim(placeId) {
       return OSMService.getPublicNominatim(placeId);
+    },
+
+    generateFileName(item) {
+      return `Trip#${item.id}.csv`;
     }
   },
 

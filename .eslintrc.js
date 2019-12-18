@@ -16,9 +16,9 @@ module.exports = {
       'max': 1,
       'maxEOF': 1
     }],
-    "comma-dangle": ["error", "never"]
+    'comma-dangle': ['error', 'never']
   },
   parserOptions: {
     parser: 'babel-eslint'
   }
-}
+};

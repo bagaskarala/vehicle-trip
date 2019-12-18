@@ -1,20 +1,19 @@
 <template>
   <div
     id="app"
-    class="container"
+    class="container py-3"
   >
-    <!-- <img alt="Vue logo" src="./assets/logo.png"> -->
     <VehicleTrip />
   </div>
 </template>
 
 <script>
-import VehicleTrip from './components/VehicleTrip.vue'
+import VehicleTrip from './components/VehicleTrip.vue';
 
 export default {
   name: 'app',
   components: {
     VehicleTrip
   }
-}
+};
 </script>
